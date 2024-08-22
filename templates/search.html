@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block body %}
+
+<form action="{% url 'search' %}" method="POST" class="mt-5 text-center">
+    {% csrf_token %}
+      <input type="search" name="searched">
+      <button class="btn btn-outline-secondary" type="submit">Ara</button>
+  </form>
+
+{% if searched %}
+<div class="container text-center mt-5">
+    <div class="row">
+        {% for product in products %}
+      <div class="col-3">
+        <div class="card" style="width: 18rem;">
+            <img src="{{product.image.url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <p class="card-text ">{{product.description|slice:":255"}}</p>
+              <a href="{% url 'detail' product.id %}" class="btn btn-primary">Detaya git</a>
+            </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</div>
+{% else %}
+    <h1>Aradığınız ürüne göre bir eşleşme yok.</h1>
+{% endif %}
+
+{% endblock body %}
